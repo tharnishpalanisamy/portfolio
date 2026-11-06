@@ -1,11 +1,12 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ArrowDown, ArrowRight, ArrowUpRight, Binary, Braces, Code2, Database, Globe2, Layers3, Mail, Menu, Network, Sparkles, X } from 'lucide-react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, MotionConfig, motion } from 'framer-motion'
 
 const personal = {
   name: 'Tharnish P.', location: 'Coimbatore, India',
   github: 'https://github.com/tharnishpalanisamy',
   linkedin: 'https://www.linkedin.com/in/tharnish-palanisamy/',
+  leetcode: 'https://leetcode.com/u/tharnishpalanisamy/',
   email: 'tharnishpalanisamy3@gmail.com',
   resume: '', // Add a public resume path, for example /resume.pdf.
 }
@@ -91,6 +92,7 @@ function App() {
   const [active, setActive] = useState('Home')
   const [menuOpen, setMenuOpen] = useState(false)
   const [selected, setSelected] = useState<string | null>(null)
+  const returnFocus = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(entries => entries.forEach(entry => {
@@ -112,7 +114,7 @@ function App() {
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     document.querySelector<HTMLButtonElement>('.modal-close')?.focus()
-    return () => { document.body.style.overflow = previousOverflow }
+    return () => { document.body.style.overflow = previousOverflow; returnFocus.current?.focus() }
   }, [selected])
 
   useEffect(() => {
@@ -123,6 +125,7 @@ function App() {
 
   const project = projects.find(item => item.id === selected)
   function openProject(projectId: string) {
+    if (!selected && document.activeElement instanceof HTMLElement) returnFocus.current = document.activeElement
     const url = new URL(window.location.href)
     url.searchParams.set('project', projectId)
     window.history.pushState({}, '', url)
@@ -135,7 +138,7 @@ function App() {
     setSelected(null)
   }
 
-  return <>
+  return <MotionConfig reducedMotion="user"><>
     <header className="nav-wrap"><nav className="nav shell" aria-label="Main navigation">
       <a className="brand" href="#home" aria-label="Tharnish P., home"><span className="brand-mark">TP</span><span>tharnish<span className="brand-dot">.</span></span></a>
       <div className={`nav-links ${menuOpen ? 'open' : ''}`}>{sections.map(item => <a key={item} className={active === item ? 'active' : ''} onClick={() => setMenuOpen(false)} href={item === 'Home' ? '#home' : `#${item.toLowerCase()}`}>{item}</a>)}
@@ -148,7 +151,7 @@ function App() {
     <main>
       <section id="home" className="hero shell section-reveal" aria-labelledby="hero-title">
         <div className="hero-copy"><div className="eyebrow"><span className="status-dot" /> FULL-STACK DEVELOPER <span className="eyebrow-divider">/</span> AI ENTHUSIAST</div>
-          <h1 id="hero-title">Building intelligent<br />software, <span className="text-gradient">from backend</span><br />systems to AI-powered<br />experiences<span className="period">.</span></h1>
+          <h1 id="hero-title">Building intelligent<br />software, <span className="text-gradient">from<wbr /> backend</span><br />systems to AI-<wbr />powered<br />experiences<span className="period">.</span></h1>
           <p className="hero-description">I'm Tharnish, a software engineer focused on full-stack development, backend architecture, and AI-powered applications. I enjoy turning complex problems into practical, well-engineered solutions.</p>
           <div className="hero-meta"><span><Globe2 size={15} /> {personal.location}</span><span className="availability"><span className="status-dot muted" /> Availability <em>not specified</em></span></div>
           <div className="hero-actions"><a href="#projects" className="button button-primary">Explore projects <ArrowRight size={16} /></a>{personal.resume ? <a href={personal.resume} download className="button button-ghost">Download resume <ArrowUpRight size={15} /></a> : <span className="button button-ghost button-disabled" aria-disabled="true" title="No resume file has been added yet">Resume not attached</span>}</div>
@@ -186,7 +189,7 @@ function App() {
 
       <section id="dsa" className="section shell section-reveal">
         <SectionHeading index="05" kicker="DATA STRUCTURES & ALGORITHMS" title={<>Enjoying the <span className="text-gradient">hard problems.</span></>} sub="A practice that keeps me sharp and helps me think clearly about trade-offs." />
-        <div className="dsa-layout"><div className="dsa-count-card"><div className="dsa-count"><span>214</span><span className="count-plus">+</span></div><span className="micro-label">PROBLEMS SOLVED · HISTORICAL COUNT</span><div className="count-rule" /><p>Problem solving is a steady part of how I learn. The count is an editable historical snapshot, not live profile data.</p><a href="#contact" className="text-link">Coding profiles <ArrowUpRight size={15} /></a><a className="profile-link" href={personal.github} target="_blank" rel="noreferrer"><GithubMark size={15} /> GitHub <ArrowUpRight size={13} /></a><span className="profile-link profile-pending">LeetCode profile URL · add when ready</span><Binary className="count-ornament" size={128} strokeWidth={0.6} /></div>
+        <div className="dsa-layout"><div className="dsa-count-card"><div className="dsa-count"><span>214</span><span className="count-plus">+</span></div><span className="micro-label">PROBLEMS SOLVED · HISTORICAL COUNT</span><div className="count-rule" /><p>Problem solving is a steady part of how I learn. The count is an editable historical snapshot, not live profile data.</p><a className="profile-link" href={personal.github} target="_blank" rel="noreferrer"><GithubMark size={15} /> GitHub <ArrowUpRight size={13} /></a><a className="profile-link" href={personal.leetcode} target="_blank" rel="noreferrer"><Binary size={15} /> LeetCode <ArrowUpRight size={13} /></a><Binary className="count-ornament" size={128} strokeWidth={0.6} /></div>
           <div className="dsa-topics"><div className="topic-header"><div><span className="micro-label">CURRENT PRACTICE</span><h3>Building breadth, one problem at a time.</h3></div><span className="topic-focus"><span className="status-dot" /> DP IN PROGRESS</span></div><div className="topic-tags">{algorithms.map((topic, i) => <span key={topic} className={i === 3 || i === 9 ? 'topic-strong' : i === 10 ? 'topic-current' : ''}>{topic}</span>)}</div><div className="strength-row"><div><span className="strength-icon purple"><Network size={17} /></span><div><span className="micro-label">STRONG AREAS</span><b>Graphs</b></div></div><div><span className="strength-icon blue"><Binary size={17} /></span><div><span className="micro-label">STRONG AREAS</span><b>Backtracking</b></div></div><div><span className="strength-icon amber"><Braces size={17} /></span><div><span className="micro-label">IN PROGRESS</span><b>Dynamic programming</b></div></div></div></div>
         </div>
       </section>
@@ -203,8 +206,8 @@ function App() {
 
     <footer className="footer shell"><a className="brand" href="#home"><span className="brand-mark">TP</span><span>tharnish<span className="brand-dot">.</span></span></a><span className="footer-note">Designed & built with care<span className="footer-dot"> · </span>© {new Date().getFullYear()} Tharnish P.</span><div className="footer-links"><a href="#about">About</a><a href="#projects">Projects</a><a href="#contact">Contact</a><a href={personal.github} aria-label="GitHub" target="_blank" rel="noreferrer"><GithubMark size={15} /></a></div></footer>
 
-    <AnimatePresence>{project && <motion.div className="modal-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onMouseDown={e => e.target === e.currentTarget && closeProject()}><motion.article className="case-modal" role="dialog" aria-modal="true" aria-labelledby="case-title" initial={{ opacity: 0, y: 24, scale: .98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 16, scale: .98 }} transition={{ duration: .22 }}><button className="modal-close" aria-label="Close case study" onClick={closeProject}><X size={19} /></button><span className="micro-label">CASE STUDY · {project.number} / 04</span><span className="project-status modal-status"><i />{project.status}</span><h2 id="case-title">{project.name}</h2><h3>{project.title}</h3><p>{project.description}</p>{project.problem && <CaseStudyDetails project={project} />}<div className="modal-divider" /><div className="modal-columns"><div><span className="micro-label">IMPLEMENTATION HIGHLIGHTS</span><ul>{project.highlights.map(point => <li key={point}>{point}</li>)}</ul></div><div><span className="micro-label">TECHNOLOGY</span><div className="tag-list modal-tags">{project.stack.map(tag => <span className="tag" key={tag}>{tag}</span>)}</div></div></div>{project.inProgress && <div className="status-panel"><span className="micro-label">IN DEVELOPMENT / NOT YET CONNECTED</span><ul>{project.inProgress.map(item => <li key={item}>{item}</li>)}</ul></div>}<p className="case-note">{project.note}</p>{project.repo ? <a className="button button-outline" href={project.repo} target="_blank" rel="noreferrer">View repository <ArrowUpRight size={15} /></a> : <span className="repo-pending">No repository link available to verify</span>}</motion.article></motion.div>}</AnimatePresence>
-  </>
+    <AnimatePresence>{project && <motion.div className="modal-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onMouseDown={e => e.target === e.currentTarget && closeProject()}><motion.article className="case-modal" role="dialog" aria-modal="true" aria-labelledby="case-title" initial={{ opacity: 0, y: 24, scale: .98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 16, scale: .98 }} transition={{ duration: .22 }}><button className="modal-close" aria-label="Close case study" onClick={closeProject}><X size={19} /></button><span className="micro-label">CASE STUDY · {project.number} / 04</span><span className="project-status modal-status"><i />{project.status}</span><h2 id="case-title">{project.name}</h2><h3>{project.title}</h3><p>{project.description}</p>{(project.problem || project.sourcePending) && <CaseStudyDetails project={project} />}<div className="modal-divider" /><div className="modal-columns"><div><span className="micro-label">IMPLEMENTATION HIGHLIGHTS</span><ul>{project.highlights.map(point => <li key={point}>{point}</li>)}</ul></div><div><span className="micro-label">TECHNOLOGY</span><div className="tag-list modal-tags">{project.stack.map(tag => <span className="tag" key={tag}>{tag}</span>)}</div></div></div>{project.inProgress && <div className="status-panel"><span className="micro-label">IN DEVELOPMENT / NOT YET CONNECTED</span><ul>{project.inProgress.map(item => <li key={item}>{item}</li>)}</ul></div>}<p className="case-note">{project.note}</p>{project.repo ? <a className="button button-outline" href={project.repo} target="_blank" rel="noreferrer">View repository <ArrowUpRight size={15} /></a> : <span className="repo-pending">No repository link available to verify</span>}</motion.article></motion.div>}</AnimatePresence>
+  </></MotionConfig>
 }
 
 function GithubMark({ size = 17 }: { size?: number }) { return <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.06c-3.1.67-3.76-1.32-3.76-1.32-.5-1.29-1.23-1.63-1.23-1.63-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15.99 1.7 2.59 1.21 3.22.92.1-.72.39-1.21.7-1.49-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.21 1.15-2.99-.12-.28-.5-1.42.11-2.96 0 0 .94-.3 3.05 1.14a10.6 10.6 0 0 1 5.55 0c2.11-1.44 3.05-1.14 3.05-1.14.61 1.54.23 2.68.11 2.96.72.78 1.15 1.77 1.15 2.99 0 4.29-2.61 5.23-5.1 5.51.4.35.75 1.02.75 2.06V22c0 .29.2.63.77.52A11.1 11.1 0 0 0 12 .9Z" /></svg> }

@@ -2,3 +2,26 @@ node_modules/
 dist/
 .DS_Store
 *.tsbuildinfo
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables
+.env
+.env.*
+
+# Browser testing artifacts
+.layout-check/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
