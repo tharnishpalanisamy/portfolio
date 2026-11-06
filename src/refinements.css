@@ -1,0 +1,52 @@
+.button-disabled{opacity:.58;cursor:not-allowed;user-select:none}
+.button:focus-visible,.text-link:focus-visible,.menu-toggle:focus-visible,.project-edge button:focus-visible,.modal-close:focus-visible,.nav a:focus-visible,.footer a:focus-visible{outline:2px solid #a69fff;outline-offset:3px}
+.nav-actions .button-disabled:hover,.hero-actions .button-disabled:hover{transform:none}
+.project-card{transition:border-color .24s,transform .24s,box-shadow .24s}
+.project-card:hover{box-shadow:0 13px 42px rgba(0,0,0,.2)}
+.project-edge button{transition:color .2s,background .2s}
+.project-edge button:hover{background:rgba(104,91,224,.16);color:#d0cbff}
+.project-art:after{content:"ILLUSTRATIVE ARTWORK";position:absolute;right:10px;bottom:8px;color:rgba(178,174,200,.55);font:6px var(--mono);letter-spacing:.8px}
+.map-coordinate{font-size:6px;letter-spacing:.45px}
+.source-art-note{position:absolute;right:8px;bottom:8px;z-index:2;color:#9391a0;font:6px var(--mono);letter-spacing:.6px}
+.contact-section{margin-top:88px}
+.contact-email{font:8px var(--mono);color:#85828f}
+.case-modal{width:min(900px,100%);max-height:min(89vh,920px);padding:clamp(22px,4vw,36px)}
+.case-study-details{display:grid;gap:16px;margin:23px 0 4px}
+.case-story-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.case-story-grid article,.case-detail-block,.case-architecture,.case-implemented,.status-panel,.source-pending{padding:14px;border:1px solid rgba(255,255,255,.075);border-radius:7px;background:rgba(255,255,255,.018)}
+.case-story-grid .micro-label,.case-detail-block .micro-label,.case-implemented>.micro-label,.case-architecture .micro-label,.status-panel .micro-label,.source-pending .micro-label{font-size:7px;color:#9a93e9;letter-spacing:1px}
+.case-story-grid p,.case-detail-block p,.source-pending p{margin:9px 0 0;color:#a7a4b1;font-size:9px;line-height:1.8}
+.case-subheading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:11px}
+.case-flow-label{color:#777481;font:7px var(--mono);letter-spacing:.7px}
+.architecture-flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+.architecture-flow-step{position:relative;min-height:66px;display:flex;flex-direction:column;justify-content:center;gap:7px;padding:9px;border:1px solid rgba(129,119,247,.16);border-radius:6px;background:linear-gradient(145deg,rgba(97,83,212,.08),rgba(255,255,255,.015));text-align:center}
+.architecture-flow-step>span{color:#8a82e9;font:7px var(--mono)}
+.architecture-flow-step>b{color:#d0cdd9;font-size:8px;line-height:1.5;font-weight:600}
+.architecture-flow-arrow{position:absolute;right:-13px;top:calc(50% - 7px);z-index:1;color:#8b83d5}
+.case-detail-block{border-color:rgba(56,189,248,.12)}
+.case-detail-block .micro-label{color:#78bde1}
+.case-implemented ul,.status-panel ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px 18px;list-style:none;padding:0;margin:12px 0 0}
+.case-implemented li,.status-panel li{position:relative;padding-left:13px;color:#a8a5b1;font-size:8px;line-height:1.8}
+.case-implemented li:before,.status-panel li:before{content:"";position:absolute;left:0;top:.72em;width:4px;height:4px;border-radius:50%;background:#8a80ee}
+.status-panel{border-color:rgba(56,189,248,.15);background:rgba(56,189,248,.025)}
+.status-panel .micro-label{color:#73bddf}
+.status-panel li:before{background:#58bddf}
+.source-pending{border-color:rgba(177,145,255,.18);background:rgba(129,119,247,.04)}
+.source-pending p{font-size:10px}
+.repo-pending{max-width:380px;line-height:1.7}
+@media(max-width:760px){
+  .contact-section{margin-top:64px}
+  .case-modal{max-height:90vh;padding:21px 16px}
+  .case-modal h2{font-size:25px}
+  .case-story-grid{grid-template-columns:1fr}
+  .architecture-flow{grid-template-columns:1fr;gap:6px}
+  .architecture-flow-step{min-height:0;flex-direction:row;justify-content:flex-start;text-align:left;padding:9px 11px}
+  .architecture-flow-step>span{width:20px;flex:none}
+  .architecture-flow-arrow{right:auto;left:12px;top:auto;bottom:-12px;transform:rotate(90deg)}
+  .case-implemented ul,.status-panel ul{grid-template-columns:1fr;gap:5px}
+  .modal-columns{grid-template-columns:1fr}
+  .case-flow-label{font-size:6px}
+}
+@media(prefers-reduced-motion:reduce){
+  .project-card:hover,.project-edge button:hover{transform:none}
+}
